@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    app:cardCornerRadius="20sp"
+    app:cardElevation="100sp"
+    app:cardBackgroundColor="#BF6C6C"
+    android:layout_margin="15sp"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <ImageView
+            android:id="@+id/bus_image"
+            android:layout_width="100sp"
+            android:layout_height="100sp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20sp"
+            android:background="@drawable/bus_img"
+            />
+
+        <TextView
+            android:id="@+id/bus_route_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10sp"
+            android:layout_marginTop="25sp"
+            android:layout_marginBottom="10sp"
+            android:layout_toEndOf="@id/bus_image"
+            android:padding="10sp"
+            android:text="@string/bus_route_info"
+            android:textAlignment="center"
+            android:textColor="#4507B3"
+            android:textStyle="bold"
+            android:textSize="16sp" />
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/bus_image"
+
+            android:layout_below="@+id/bus_route_info"
+            android:layout_marginBottom="15sp"
+            android:layout_marginStart="30sp"
+            android:layout_marginTop="10sp"
+            android:background="@drawable/border_for_direction_button">
+
+            <LinearLayout
+                android:id="@+id/onclickviewroute"
+                android:layout_width="wrap_content"
+                android:layout_height="48sp"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:layout_margin="2sp"
+
+
+                android:clickable="true"
+                android:onClick="onclickViewRoute"
+                android:focusable="true"
+
+                tools:ignore="UseCompoundDrawables">
+
+            <TextView
+                android:id="@+id/see_direction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/see_direction"
+                android:textSize="15sp"
+                android:textColor="#0C0E0E"
+                android:textStyle="bold"
+                android:layout_marginStart="1sp"
+                android:layout_marginTop="4sp"/>
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="27sp"
+                android:background="@drawable/deirection_button"
+                android:contentDescription="@string/button_to_show_the_direction"
+                android:layout_marginStart="1sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>
+
+</androidx.cardview.widget.CardView>

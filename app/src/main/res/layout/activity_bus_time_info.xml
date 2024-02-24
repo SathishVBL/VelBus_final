@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:background="@drawable/img_4"
+    >
+    <TextView
+        android:id="@+id/available_timings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="AVAILABLE TIMINGS"
+        android:textSize="30sp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColorHighlight="#03A9F4"
+        android:textColor="#EB8E05"
+
+        android:layout_marginTop="15sp"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Live_track_button"
+        android:layout_below="@+id/available_timings"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15sp"
+        android:background="@drawable/border_for_direction_button"
+
+        android:clickable="true"
+        android:focusable="true">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Live Track"
+            android:layout_marginTop="5sp"
+            android:layout_marginStart="10sp"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:textColor="#DA0303"
+            />
+        <ImageButton
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:background="@drawable/live_track_icon"
+           android:contentDescription="to track the buses"
+            />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/bus_time_recycle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/Live_track_button"
+        android:layout_marginStart="10sp"
+        android:layout_marginTop="10sp"
+        android:layout_marginEnd="10sp"
+        android:layout_marginBottom="10sp" />
+
+</RelativeLayout>

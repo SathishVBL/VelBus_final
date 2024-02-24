@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">VelBus</string>
+    <string name="velbus">VelBus</string>
+    <string name="sample_image">sample image</string>
+    <string name="get_start">Get start</string>
+    <string name="make_your_journey_peaceful">Make your journey peaceful !!!</string>
+    <string name="search">SEARCH</string>
+    <string name="enter_source">enter source....</string>
+    <string name="Search">Search</string>
+    <string name="enter_destination">enter destination...</string>
+    <string name="available_buses">Available Buses....</string>
+    <string name="navigate_back_to_search_page">Navigate back to search page</string>
+    <string name="to">to</string>
+    <string name="destination_place">Destination Place</string>
+    <string name="source_place">Source Place</string>
+    <string name="nothing">nothing</string>
+    <string name="name_ofthe_bus">name of the bus..</string>
+    <string name="end">end....</string>
+    <string name="see_direction">SEE DIRECTION</string>
+    <string name="button_to_show_the_direction">button to show the direction</string>
+    <string name="bus_route_info">bus route info</string>
+    <string name="my_api_key">AIzaSyAwjXGYs4mqBsIiTL7k3DEpimLl968Eriw</string>
+
+</resources>

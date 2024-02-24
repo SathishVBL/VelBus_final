@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bus">
+
+
+    <AutoCompleteTextView
+        android:id="@+id/editEnterDest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autofillHints="enter source..."
+        android:background="@drawable/searchdsgn"
+        android:drawableStart="@android:drawable/ic_menu_search"
+        android:drawablePadding="12sp"
+        android:ems="10"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif"
+        android:gravity="center"
+        android:hint="@string/enter_destination"
+        android:inputType="text"
+        android:paddingStart="20sp"
+        android:paddingTop="2sp"
+        android:paddingEnd="20sp"
+        android:paddingBottom="2sp"
+        android:textAlignment="viewStart"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.435"
+        tools:ignore="RtlCompat" />
+
+
+    <!--    <TextView-->
+<!--        android:id="@+id/serchtxt"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:gravity="center"-->
+<!--        android:text="@string/search"-->
+<!--        android:textColor="#"-->
+<!--        android:textColorHighlight="#750808"-->
+<!--        android:textSize="24sp"-->
+<!--        android:textStyle="bold"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.134" />-->
+
+    <ImageView
+        android:id="@+id/bus_image"
+        android:layout_width="150sp"
+        android:layout_height="120sp"
+        android:layout_centerVertical="true"
+        android:background="@drawable/logo"
+        app:layout_constraintBottom_toTopOf="@+id/editEnterSrc"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <AutoCompleteTextView
+        android:id="@+id/editEnterSrc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autofillHints="enter source..."
+        android:background="@drawable/searchdsgn"
+        android:drawableStart="@android:drawable/ic_menu_search"
+        android:drawablePadding="12sp"
+        android:ems="10"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif"
+        android:gravity="center"
+        android:hint="@string/enter_source"
+        android:inputType="text"
+        android:paddingStart="20sp"
+        android:paddingTop="2sp"
+        android:paddingEnd="20sp"
+        android:paddingBottom="2sp"
+        android:textAlignment="textStart"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.283"
+        tools:ignore="RtlCompat" />
+
+    <Button
+        android:id="@+id/searchBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Search"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.62" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

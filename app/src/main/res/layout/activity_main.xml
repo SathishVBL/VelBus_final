@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainlayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    tools:context=".MainActivity">
+
+<!--    <TextView-->
+<!--        android:id="@+id/appname"-->
+<!--        android:layout_width="191dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:accessibilityLiveRegion="none"-->
+<!--        android:background="#D6A4A4"-->
+<!--        android:gravity="center"-->
+<!--        android:text="@string/velbus"-->
+<!--        android:textAlignment="gravity"-->
+<!--        android:textAllCaps="false"-->
+<!--        android:textColor="#15278A"-->
+<!--        android:textColorHint="#60066F"-->
+<!--        android:textSize="34sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.152" />-->
+
+    <ImageView
+        android:id="@+id/bus_image"
+        android:layout_width="200sp"
+        android:layout_height="80sp"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="44dp"
+        android:background="@drawable/picture1"
+        app:layout_constraintBottom_toTopOf="@+id/bustopimage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.34" />
+
+    <ImageView
+        android:id="@+id/bustopimage"
+        android:layout_width="338dp"
+        android:layout_height="183dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginEnd="73dp"
+        android:contentDescription="@string/sample_image"
+        android:foregroundGravity="center_horizontal"
+        app:circularflow_defaultRadius="23sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.55"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.397"
+        app:srcCompat="@drawable/buslogoforopening" />
+
+    <Button
+        android:id="@+id/startBTN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+
+        android:gravity="center"
+        android:text="@string/search"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.68" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="319dp"
+        android:layout_height="32dp"
+        android:gravity="center"
+        android:text="@string/make_your_journey_peaceful"
+        android:textColor="#081355"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.89" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="48sp"
+        android:clickable="true"
+        android:onClick="onclickSeeDirection"
+
+
+        android:focusable="true"
+        android:orientation="horizontal"
+
+        android:padding="10dp"
+        android:layout_marginTop="400sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="UseCompoundDrawables">
+        <TextView
+            android:id="@+id/see_direction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/see_direction"
+            android:textColor="#0C0E0E"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="156dp"
+            tools:layout_editor_absoluteY="433dp" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="27sp"
+            android:background="@drawable/deirection_button"
+            android:contentDescription="@string/button_to_show_the_direction"
+            tools:layout_editor_absoluteX="271dp"
+            tools:layout_editor_absoluteY="426dp" />
+
+    </LinearLayout>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
