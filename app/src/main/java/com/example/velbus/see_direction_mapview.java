@@ -15,7 +15,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -23,7 +22,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -33,9 +31,7 @@ import com.google.maps.internal.PolylineEncoding;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
+
 import java.util.ArrayList;
 
 import java.util.List;
@@ -47,6 +43,7 @@ public class see_direction_mapview extends FragmentActivity implements OnMapRead
     public Polyline mypolyline;
     public String encodeRoute;
     public String encodeStopings;
+    public  String route_name;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,6 +64,15 @@ public class see_direction_mapview extends FragmentActivity implements OnMapRead
 
         mapFragment.getMapAsync(this);
 
+        Bundle b = getIntent().getExtras();
+        if (b != null) {
+            route_name = b.getString("particular_route");
+            // Now you can use the routeName variable as needed
+        } else {
+            // Handle the case where the Bundle is null
+        }
+
+
         // Inside your onCreate method
 
 //        get the json value of particular route and stoping in the enoded format
@@ -77,22 +83,25 @@ public class see_direction_mapview extends FragmentActivity implements OnMapRead
 
     public void pointMarker(String encodedStoping){
         if(encodedStoping!=null) {
+            Log.d("enoded stoping >>>>>>>>",encodeStopings);
+
             BitmapDescriptor busStopIcon = BitmapDescriptorFactory.fromResource(R.drawable.bus_stop_icon);
 
             List<com.google.maps.model.LatLng> decodedStopings = PolylineEncoding.decode(encodedStoping);
             for (com.google.maps.model.LatLng x : decodedStopings) {
                 LatLng temp = new LatLng(x.lat, x.lng);
-                mMap.addMarker(new MarkerOptions().position(temp).title("stop 1").icon(busStopIcon));
+                mMap.addMarker(new MarkerOptions().position(temp).title("sathish v").icon(busStopIcon));
             }
         }
         else {
             Toast.makeText(this, "stopings details couldn't be fetched", Toast.LENGTH_SHORT).show();
+        Log.d("=>=>=>=>=>=>=>=>=>=>=>","data is not still  ------------------------------------------");
         }
     }
 
     public  void drawRoute(String encodeRoute){
         if(encodeRoute!=null) {
-
+            Log.d("enoded route >>>>>>>>>>",encodeRoute);
 
             List<com.google.maps.model.LatLng> myoints = PolylineEncoding.decode(encodeRoute);
             List<com.google.android.gms.maps.model.LatLng> points = new ArrayList<>();
@@ -115,6 +124,8 @@ public class see_direction_mapview extends FragmentActivity implements OnMapRead
         }
         else {
             Toast.makeText(this, "Route details couldn't be fetched", Toast.LENGTH_SHORT).show();
+            Log.d("=>=>=>=>=>=>=>=>=>=>=>","route data is not still  ------------------------------------------");
+
         }
     }
 
@@ -143,13 +154,12 @@ public void fetchJson(){
             JSONObject jsonObject = new JSONObject(response);
 
             // Replace "katpadi to bagayam" with the actual route name
-            JSONObject routeData = jsonObject.getJSONObject("katpadi to bagayam");
+            JSONObject routeData = jsonObject.getJSONObject(route_name);
 
             // Retrieve the encodedRouteJson and encodedStopingJson values
             encodeRoute = routeData.optString("encodedRouteJson");
             encodeStopings = routeData.optString("endodedStopingJson");
-            Log.d("enoded route ",encodeRoute);
-            Log.d("enoded stoping ",encodeStopings);
+
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -163,7 +173,7 @@ public void fetchJson(){
 
         LatLng vellore = new LatLng(12.934968 , 79.146881);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(vellore, 12));
-//
+
 
 
 //encodeStopings="aqrmAq}~aN|A|ZfAt_@e\\nL_LaDs_@f@od@eg@uPyG{SuBwXk@oo@wC{W~@";

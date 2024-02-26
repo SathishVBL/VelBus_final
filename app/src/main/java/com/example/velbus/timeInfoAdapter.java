@@ -10,15 +10,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class timeInfoAdapter extends RecyclerView.Adapter<timeInfoAdapter.timeViewHolder> {
     Context context;
-    List<String> times=new ArrayList<>();
+//    List<String> times;
+    List<String> actualTime=new ArrayList<>();
     timeInfoAdapter(Context context,List<String> times){
         this.context=context;
-        this.times=times;
+//        this.times=times;
+        twelveTo24(times);
+
     }
 
     @NonNull
@@ -36,13 +42,13 @@ public class timeInfoAdapter extends RecyclerView.Adapter<timeInfoAdapter.timeVi
         else {
             holder.itemView.startAnimation(AnimationUtils.loadAnimation(context,R.anim.section_item));
         }
-        holder.times.setText(times.get(position));
+        holder.times.setText("DEPARTURE AT "+actualTime.get(position));
 
     }
 
     @Override
     public int getItemCount() {
-        return times.size();
+        return actualTime.size();
     }
 
     public static class timeViewHolder extends RecyclerView.ViewHolder{
@@ -50,6 +56,36 @@ public class timeInfoAdapter extends RecyclerView.Adapter<timeInfoAdapter.timeVi
         public timeViewHolder(@NonNull View itemView) {
             super(itemView);
             times=(TextView) itemView.findViewById(R.id.time_for_bus);
+
+        }
+    }
+
+
+    public void twelveTo24(List<String> t){
+        String tempTime;
+
+        DateTimeFormatter formatter24hr;
+        DateTimeFormatter formatter12hr;
+        LocalTime currentTime;
+        LocalDateTime curentDateTime;
+
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            formatter24hr = DateTimeFormatter.ofPattern("H:mm:ss");
+            formatter12hr = DateTimeFormatter.ofPattern("h:mm a");
+            curentDateTime=LocalDateTime.now();
+            currentTime=curentDateTime.toLocalTime();
+
+
+            for(String tt:t){
+                LocalTime specificTime=LocalTime.parse(tt,formatter24hr);
+
+                if(specificTime.isAfter(currentTime)){
+                    tempTime=specificTime.format(formatter12hr);
+                    actualTime.add(tempTime);
+                }
+
+            }
 
         }
     }

@@ -61,7 +61,7 @@ public class BusInfoAdapter extends RecyclerView.Adapter<BusInfoAdapter.MyViewHo
 
                         // Create an Intent to start the desired activity
                         Intent intent = new Intent(itemView.getContext(), see_direction_mapview.class);
-                        intent.putExtra("selectedItem", selectedItem);
+                        intent.putExtra("particular_route", selectedItem);
 
                         // Start the new activity
                         itemView.getContext().startActivity(intent);

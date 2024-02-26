@@ -38,6 +38,7 @@ public class bus_time_info extends AppCompatActivity {
 
 
         Bundle extra=getIntent().getExtras();
+        assert extra != null;
         route_name=extra.getString("route_name");
 
         fetchJson();
