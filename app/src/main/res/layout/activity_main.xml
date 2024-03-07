@@ -9,6 +9,11 @@
     app:layoutDescription="@xml/activity_main_scene2"
     tools:context=".MainActivity">
 
+    <ImageView
+        android:layout_width="450sp"
+        android:layout_height="350sp"
+        android:background="@drawable/buslogoforopening"
+        android:id="@+id/velbustlogo" />
 
     <ImageView
         android:id="@+id/myapp"
