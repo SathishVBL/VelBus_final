@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     app:cardCornerRadius="20sp"
     app:cardElevation="100sp"
-    app:cardBackgroundColor="#BF6C6C"
+    app:cardBackgroundColor="#F29595"
     android:layout_margin="15sp"
     >
     <RelativeLayout
@@ -35,9 +35,9 @@
             android:padding="10sp"
             android:text="@string/bus_route_info"
             android:textAlignment="center"
-            android:textColor="#4507B3"
+            android:textColor="#24035F"
             android:textStyle="bold"
-            android:textSize="16sp" />
+            android:textSize="22sp" />
 
 
         <RelativeLayout
