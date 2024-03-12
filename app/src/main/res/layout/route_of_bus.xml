@@ -55,35 +55,38 @@
                 android:id="@+id/onclickviewroute"
                 android:layout_width="wrap_content"
                 android:layout_height="48sp"
+                android:layout_marginStart="2sp"
+                android:layout_marginTop="2sp"
+
+
+                android:layout_marginEnd="2sp"
+                android:layout_marginBottom="2sp"
+                android:clickable="true"
+
+                android:focusable="true"
+                android:onClick="onclickViewRoute"
                 android:orientation="horizontal"
                 android:padding="10dp"
-                android:layout_margin="2sp"
-
-
-                android:clickable="true"
-                android:onClick="onclickViewRoute"
-                android:focusable="true"
-
                 tools:ignore="UseCompoundDrawables">
 
-            <TextView
-                android:id="@+id/see_direction"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/see_direction"
-                android:textSize="15sp"
-                android:textColor="#0C0E0E"
-                android:textStyle="bold"
-                android:layout_marginStart="1sp"
-                android:layout_marginTop="4sp"/>
+                <TextView
+                    android:id="@+id/see_direction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1sp"
+                    android:layout_marginTop="4sp"
+                    android:text="@string/see_direction"
+                    android:textColor="#0C0E0E"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="27sp"
-                android:background="@drawable/deirection_button"
-                android:contentDescription="@string/button_to_show_the_direction"
-                android:layout_marginStart="1sp" />
-        </LinearLayout>
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="27sp"
+                    android:layout_marginStart="1sp"
+                    android:background="@drawable/deirection_button"
+                    android:contentDescription="@string/button_to_show_the_direction" />
+            </LinearLayout>
     </RelativeLayout>
 
 

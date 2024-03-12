@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -40,6 +42,9 @@ public class bus_time_info extends AppCompatActivity {
         Bundle extra=getIntent().getExtras();
         assert extra != null;
         route_name=extra.getString("route_name");
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TextView text=findViewById(R.id.route_name);
+        text.setText(route_name);
+        text.setElevation(100);
 
         fetchJson();
 

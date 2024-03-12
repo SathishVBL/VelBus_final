@@ -23,7 +23,7 @@ public  String sourcePlace,destiPlace;
 // store or get the bus stop names to show auto complete us the apadter
         String[] stop={
                 "vellore",
-                "tiruvannamala",
+                "thiruvannamala",
                 "sankarapuram",
                 "kallakurichi",
                 "arni",
@@ -43,7 +43,7 @@ public  String sourcePlace,destiPlace;
                 "chetpet",
                 "gingee",
                 "polur",
-                "tiruvannamalai",
+                "thiruvannamalai",
                 "tirukoilur",
                 "ulundurpet",
                 "perambalur",
@@ -109,7 +109,8 @@ public  String sourcePlace,destiPlace;
                 "gudiyatham",
                 "nagore",
                 "nagapattinam",
-                "thanjavur"
+                "thanjavur",
+                "adukkamparai"
                };
         ArrayAdapter<String> ar=new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,stop);
 //get id

@@ -73,31 +73,32 @@ public class see_direction_mapview extends FragmentActivity implements OnMapRead
         }
 
 
-        // Inside your onCreate method
 
-//        get the json value of particular route and stoping in the enoded format
         fetchJson();
 
     }
 
-
-    public void pointMarker(String encodedStoping){
-        if(encodedStoping!=null) {
-            Log.d("enoded stoping >>>>>>>>",encodeStopings);
-
-            BitmapDescriptor busStopIcon = BitmapDescriptorFactory.fromResource(R.drawable.bus_stop_icon);
-
-            List<com.google.maps.model.LatLng> decodedStopings = PolylineEncoding.decode(encodedStoping);
-            for (com.google.maps.model.LatLng x : decodedStopings) {
-                LatLng temp = new LatLng(x.lat, x.lng);
-                mMap.addMarker(new MarkerOptions().position(temp).title("sathish v").icon(busStopIcon));
-            }
-        }
-        else {
-            Toast.makeText(this, "stopings details couldn't be fetched", Toast.LENGTH_SHORT).show();
-        Log.d("=>=>=>=>=>=>=>=>=>=>=>","data is not still  ------------------------------------------");
-        }
-    }
+//
+//    public void pointMarker(String encodedStoping){
+//        if(encodedStoping!=null) {
+//            Log.d("enoded stoping >>>>>>>>",encodeStopings);
+//
+//            BitmapDescriptor busStopIcon = BitmapDescriptorFactory.fromResource(R.drawable.bus_stop_icon);
+//
+//            List<com.google.maps.model.LatLng> decodedStopings = PolylineEncoding.decode(encodedStoping);
+//            for (com.google.maps.model.LatLng x : decodedStopings) {
+//                LatLng temp = new LatLng(x.lat, x.lng);
+//                mMap.addMarker(new MarkerOptions().position(temp).title("sathish v").icon(busStopIcon));
+//            }
+//
+//
+//
+//        }
+//        else {
+//            Toast.makeText(this, "stopings details couldn't be fetched", Toast.LENGTH_SHORT).show();
+//        Log.d("=>=>=>=>=>=>=>=>=>=>=>","data is not still  ------------------------------------------");
+//        }
+//    }
 
     public  void drawRoute(String encodeRoute){
         if(encodeRoute!=null) {
@@ -111,13 +112,18 @@ public class see_direction_mapview extends FragmentActivity implements OnMapRead
             }
             PolylineOptions polylineOptions = new PolylineOptions();
             polylineOptions.addAll(points);
-            polylineOptions.color(Color.BLACK);
-            polylineOptions.width(10);
+            polylineOptions.color(Color.RED);
+            polylineOptions.width(12);
 
             // Add polyline to the map
             if (polylineOptions != null) {
                 // Initialize the Polyline here
                 mypolyline = mMap.addPolyline(polylineOptions);
+                BitmapDescriptor busStopIcon = BitmapDescriptorFactory.fromResource(R.drawable.bus_stop_icon);
+                int n=points.size()-1;
+                mMap.addMarker(new MarkerOptions().position(points.get(0)).title("sathish v").icon(busStopIcon));
+                mMap.addMarker(new MarkerOptions().position(points.get(n)).title("sathish v").icon(busStopIcon));
+
 
             }
 
@@ -178,8 +184,11 @@ public void fetchJson(){
 
 //encodeStopings="aqrmAq}~aN|A|ZfAt_@e\\nL_LaDs_@f@od@eg@uPyG{SuBwXk@oo@wC{W~@";
 //encodeRoute="mcfkAo}yaNgfAxv@qnAnr@mjAzKsy@fCou@wXi\\en@kGk_Ah\\yv@vd@{i@td@}i@|Sia@cX}i@cm@a]am@{i@i\\en@lNmz@|z@u]`bAiCry@?ty@lTlu@ja@|h@dn@lu@vv@|h@xv@n`@nr@zh@nr@am@dn@ou@nr@_bAb{@gfAzi@";
+
+//        i}mAyl_bNM_JpEOjCd@vA`@bARv@n@h@B@vAnIbOv@|@|@ZfBd@nE~@~Bd@rBJfCGxJUvAdAS`KpA@pF{ArOsAtUmAvGh@dCT^{@H}@Ra@rXMnBg@fEcBfJuATq@GyA@wCjFCbBDVf@nTfAnELfJAhE@zDs@`FOvMg@jMMjLSrKEpEXrQbC|ItAvLvAtNv@lMZlTxAzm@hClV{AfK}BtNeGvJiDxCo@lLc@lIMrAH~C`A|Bt@
         drawRoute(encodeRoute);
-        pointMarker(encodeStopings);
+//        drawRoute("oh}mAem_bNEmIjJj@vBBjAvAVtBfAhCtIvNxH|BzYf@?xJZdAvLyClR_BnQw@nJb@`AwBtVQhCa@fJmC|Eu@XcHlH?D~@zCTnPz@fV_@nl@gCrV^zMjA|i@fHviAlEpe@V|YwNpc@mEh_@lNhZ|QjmAiHfhA}Dvz@aJlx@cEpaAzCfFkFhC{Fv}B}rBzVePxEsLtTcNlU_MbO{MbGgFzFkK`B{GjHsLlIsKzXg\\dj@sm@v_@oh@bkAq~Ars@ycA|m@cgAtYywAx^s`CvMgt@jCcOhDgS~@_FyVwH");
+//        pointMarker(encodeStopings);
 
 
 
