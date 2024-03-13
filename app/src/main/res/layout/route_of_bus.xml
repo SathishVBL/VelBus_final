@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     app:cardCornerRadius="20sp"
     app:cardElevation="100sp"
-    app:cardBackgroundColor="#F29595"
+    app:cardBackgroundColor="#E57A9F"
     android:layout_margin="15sp"
     >
     <RelativeLayout
@@ -37,7 +37,7 @@
             android:textAlignment="center"
             android:textColor="#24035F"
             android:textStyle="bold"
-            android:textSize="22sp" />
+            android:textSize="26sp" />
 
 
         <RelativeLayout

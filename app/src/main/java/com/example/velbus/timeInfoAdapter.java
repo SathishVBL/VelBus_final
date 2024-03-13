@@ -79,9 +79,8 @@ public class timeInfoAdapter extends RecyclerView.Adapter<timeInfoAdapter.timeVi
 
             for(String tt:t){
                 LocalTime specificTime=LocalTime.parse(tt,formatter24hr);
-
+                tempTime=specificTime.format(formatter12hr);
                 if(specificTime.isAfter(currentTime)){
-                    tempTime=specificTime.format(formatter12hr);
                     actualTime.add(tempTime);
                 }
 
