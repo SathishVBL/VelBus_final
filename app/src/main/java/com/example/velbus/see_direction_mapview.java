@@ -1,8 +1,10 @@
 package com.example.velbus;
 
 
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -35,8 +37,22 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import java.util.List;
-
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 public class see_direction_mapview extends FragmentActivity implements OnMapReadyCallback {
+
 
     private GoogleMap mMap;
     //create custom marker for bbus  stop
@@ -44,7 +60,10 @@ public class see_direction_mapview extends FragmentActivity implements OnMapRead
     public String encodeRoute;
     public String encodeStopings;
     public  String route_name;
-
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+    private FirebaseAuth firebaseAuth;
+    private DatabaseReference databaseReference;
+    private FusedLocationProviderClient fusedLocationProviderClient;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,13 +71,18 @@ public class see_direction_mapview extends FragmentActivity implements OnMapRead
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 
+
+//        for  firebase references
+        firebaseAuth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference("drivers");
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
         // Check if the mapFragment is null to avoid potential issues
         if (mapFragment == null) {
             mapFragment = SupportMapFragment.newInstance();
 
-            // Begin the transaction to add the mapFragment to the FragmentContainerView
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.map, mapFragment) // Replace R.id.map with your actual layout ID
+                    .replace(R.id.map, mapFragment)
                     .commit();
         }
 
@@ -78,27 +102,6 @@ public class see_direction_mapview extends FragmentActivity implements OnMapRead
 
     }
 
-//
-//    public void pointMarker(String encodedStoping){
-//        if(encodedStoping!=null) {
-//            Log.d("enoded stoping >>>>>>>>",encodeStopings);
-//
-//            BitmapDescriptor busStopIcon = BitmapDescriptorFactory.fromResource(R.drawable.bus_stop_icon);
-//
-//            List<com.google.maps.model.LatLng> decodedStopings = PolylineEncoding.decode(encodedStoping);
-//            for (com.google.maps.model.LatLng x : decodedStopings) {
-//                LatLng temp = new LatLng(x.lat, x.lng);
-//                mMap.addMarker(new MarkerOptions().position(temp).title("sathish v").icon(busStopIcon));
-//            }
-//
-//
-//
-//        }
-//        else {
-//            Toast.makeText(this, "stopings details couldn't be fetched", Toast.LENGTH_SHORT).show();
-//        Log.d("=>=>=>=>=>=>=>=>=>=>=>","data is not still  ------------------------------------------");
-//        }
-//    }
 
     public  void drawRoute(String encodeRoute){
         if(encodeRoute!=null) {
@@ -119,8 +122,9 @@ public class see_direction_mapview extends FragmentActivity implements OnMapRead
             if (polylineOptions != null) {
                 // Initialize the Polyline here
                 mypolyline = mMap.addPolyline(polylineOptions);
-                BitmapDescriptor busStopIcon = BitmapDescriptorFactory.fromResource(R.drawable.bus_stop_icon);
+
                 int n=points.size()-1;
+                BitmapDescriptor busStopIcon = BitmapDescriptorFactory.fromResource(R.drawable.bus_stop_icon);
                 mMap.addMarker(new MarkerOptions().position(points.get(0)).title("sathish v").icon(busStopIcon));
                 mMap.addMarker(new MarkerOptions().position(points.get(n)).title("sathish v").icon(busStopIcon));
 
@@ -173,6 +177,52 @@ public void fetchJson(){
     }
 
 
+
+
+    //=============================================================================================================================================================
+
+    private void fetchLocationPeriodically() {
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                databaseReference.child("driver2").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Double latitude = dataSnapshot.child("lat").getValue(Double.class);
+                        Double longitude = dataSnapshot.child("lan").getValue(Double.class);
+
+                        if (latitude != null && longitude != null && mMap != null) {
+                            LatLng newPosition = new LatLng(latitude, longitude);
+                            mMap.clear(); // Clear existing markers
+                            BitmapDescriptor livetrack = BitmapDescriptorFactory.fromResource(R.drawable.live_track_icon);
+
+                            mMap.addMarker(new MarkerOptions().position(newPosition).title("New Location").icon(livetrack));
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newPosition, 15)); // Zoom to new position
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        // Handle error
+                    }
+                });
+                // Fetch data every 10 seconds
+                handler.postDelayed(this, 10 * 1000);
+            }
+        }, 0); // Initial delay of 0 ms
+    }
+
+    // Handle permission request result
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                fetchLocationPeriodically();
+            }
+        }
+    }
+
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
@@ -180,20 +230,8 @@ public void fetchJson(){
         LatLng vellore = new LatLng(12.934968 , 79.146881);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(vellore, 12));
 
-
-
-//encodeStopings="aqrmAq}~aN|A|ZfAt_@e\\nL_LaDs_@f@od@eg@uPyG{SuBwXk@oo@wC{W~@";
-//encodeRoute="mcfkAo}yaNgfAxv@qnAnr@mjAzKsy@fCou@wXi\\en@kGk_Ah\\yv@vd@{i@td@}i@|Sia@cX}i@cm@a]am@{i@i\\en@lNmz@|z@u]`bAiCry@?ty@lTlu@ja@|h@dn@lu@vv@|h@xv@n`@nr@zh@nr@am@dn@ou@nr@_bAb{@gfAzi@";
-
-//        i}mAyl_bNM_JpEOjCd@vA`@bARv@n@h@B@vAnIbOv@|@|@ZfBd@nE~@~Bd@rBJfCGxJUvAdAS`KpA@pF{ArOsAtUmAvGh@dCT^{@H}@Ra@rXMnBg@fEcBfJuATq@GyA@wCjFCbBDVf@nTfAnELfJAhE@zDs@`FOvMg@jMMjLSrKEpEXrQbC|ItAvLvAtNv@lMZlTxAzm@hClV{AfK}BtNeGvJiDxCo@lLc@lIMrAH~C`A|Bt@
         drawRoute(encodeRoute);
-//        drawRoute("oh}mAem_bNEmIjJj@vBBjAvAVtBfAhCtIvNxH|BzYf@?xJZdAvLyClR_BnQw@nJb@`AwBtVQhCa@fJmC|Eu@XcHlH?D~@zCTnPz@fV_@nl@gCrV^zMjA|i@fHviAlEpe@V|YwNpc@mEh_@lNhZ|QjmAiHfhA}Dvz@aJlx@cEpaAzCfFkFhC{Fv}B}rBzVePxEsLtTcNlU_MbO{MbGgFzFkK`B{GjHsLlIsKzXg\\dj@sm@v_@oh@bkAq~Ars@ycA|m@cgAtYywAx^s`CvMgt@jCcOhDgS~@_FyVwH");
-//        pointMarker(encodeStopings);
-
-
-
-
-
+        fetchLocationPeriodically();
 
     }
 }
