@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "950166165448",
+    "firebase_url": "https://driver1-a7f7a-default-rtdb.firebaseio.com",
+    "project_id": "driver1-a7f7a",
+    "storage_bucket": "driver1-a7f7a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:950166165448:android:2752459904654dba9452fd",
+        "android_client_info": {
+          "package_name": "com.example.driver1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDw-DMZnouYkYJqn45hhY4nEQv_0lpuxG4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:950166165448:android:55dc337922178ecc9452fd",
+        "android_client_info": {
+          "package_name": "com.example.velbus"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDw-DMZnouYkYJqn45hhY4nEQv_0lpuxG4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

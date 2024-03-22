@@ -2,6 +2,11 @@ plugins {
     id("com.android.application")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 
+
+
+    id("com.google.gms.google-services")
+
+
 }
 
 android {
@@ -66,4 +71,9 @@ dependencies {
     implementation ("com.google.android.gms:play-services-nearby:16.0.0")
     implementation ("com.google.android.gms:play-services-maps:17.0.1")
     implementation ("com.google.android.gms:play-services-places:16.0.0")
+
+
+    implementation("com.google.firebase:firebase-analytics")
+    implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
+
 }
