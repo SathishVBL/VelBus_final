@@ -1,0 +1,22 @@
+
+//======================>this to add marker for each bustop over the polylines====================================================================================
+//    public void pointMarker(String encodedStoping){
+//        if(encodedStoping!=null) {
+//            Log.d("enoded stoping >>>>>>>>",encodeStopings);
+//
+//            BitmapDescriptor busStopIcon = BitmapDescriptorFactory.fromResource(R.drawable.bus_stop_icon);
+//
+//            List<com.google.maps.model.LatLng> decodedStopings = PolylineEncoding.decode(encodedStoping);
+//            for (com.google.maps.model.LatLng x : decodedStopings) {
+//                LatLng temp = new LatLng(x.lat, x.lng);
+//                mMap.addMarker(new MarkerOptions().position(temp).title("sathish v").icon(busStopIcon));
+//            }
+//
+//
+//
+//        }
+//        else {
+//            Toast.makeText(this, "stopings details couldn't be fetched", Toast.LENGTH_SHORT).show();
+//        Log.d("=>=>=>=>=>=>=>=>=>=>=>","data is not still  ------------------------------------------");
+//        }
+//    }

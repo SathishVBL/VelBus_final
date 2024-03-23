@@ -24,6 +24,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -36,6 +37,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import java.util.HashMap;
 import java.util.List;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -57,6 +59,7 @@ public class see_direction_mapview extends FragmentActivity implements OnMapRead
     private GoogleMap mMap;
     //create custom marker for bbus  stop
     public Polyline mypolyline;
+    private HashMap<String, Marker> driverMarkers = new HashMap<>();
     public String encodeRoute;
     public String encodeStopings;
     public  String route_name;
@@ -186,21 +189,35 @@ public void fetchJson(){
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                databaseReference.child("driver2").addListenerForSingleValueEvent(new ValueEventListener() {
+                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        Double latitude = dataSnapshot.child("lat").getValue(Double.class);
-                        Double longitude = dataSnapshot.child("lan").getValue(Double.class);
+                        for (DataSnapshot driverSnapshot : dataSnapshot.getChildren()) {
+                            String driverKey = driverSnapshot.getKey();
+                            Double latitude = driverSnapshot.child("lat").getValue(Double.class);
+                            Double longitude = driverSnapshot.child("lan").getValue(Double.class);
 
-                        if (latitude != null && longitude != null && mMap != null) {
-                            LatLng newPosition = new LatLng(latitude, longitude);
-                            mMap.clear(); // Clear existing markers
-                            BitmapDescriptor livetrack = BitmapDescriptorFactory.fromResource(R.drawable.live_track_icon);
+                            if (latitude != null && longitude != null && mMap != null) {
+                                LatLng newPosition = new LatLng(latitude, longitude);
+                                // Clear existing markers
+                                BitmapDescriptor livetrack = BitmapDescriptorFactory.fromResource(R.drawable.live_track_icon);
 
-                            mMap.addMarker(new MarkerOptions().position(newPosition).title("New Location").icon(livetrack));
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newPosition, 15)); // Zoom to new position
+                                if (driverMarkers.containsKey(driverKey)) {
+                                    Marker marker = driverMarkers.get(driverKey);
+                                    if (marker != null) {
+                                        LatLng previousPosition = marker.getPosition();
+                                        marker.setPosition(newPosition); // Update marker position
+                                    }
+                                } else {
+                                    // Add new marker if it doesn't exist
+                                    Marker newMarker = mMap.addMarker(new MarkerOptions().position(newPosition).title("Driver " + driverKey).icon(livetrack));
+                                    driverMarkers.put(driverKey, newMarker);
+                                }
+
+                            }
                         }
                     }
+
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                         // Handle error
@@ -213,7 +230,6 @@ public void fetchJson(){
     }
 
     // Handle permission request result
-    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
