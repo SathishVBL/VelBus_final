@@ -72,9 +72,19 @@ public class see_direction_mapview extends FragmentActivity implements OnMapRead
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 
 
+//        to get the extra data during intent
+        Bundle b = getIntent().getExtras();
+        if (b != null) {
+            route_name = b.getString("particular_route");
+            // Now you can use the routeName variable as needed
+        } else {
+            // Handle the case where the Bundle is null
+        }
+
+
 //        for  firebase references
         firebaseAuth = FirebaseAuth.getInstance();
-        databaseReference = FirebaseDatabase.getInstance().getReference("drivers");
+        databaseReference = FirebaseDatabase.getInstance().getReference(route_name);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         driverMarkers = new HashMap<>();
 
@@ -89,13 +99,7 @@ public class see_direction_mapview extends FragmentActivity implements OnMapRead
 
         mapFragment.getMapAsync(this);
 
-        Bundle b = getIntent().getExtras();
-        if (b != null) {
-            route_name = b.getString("particular_route");
-            // Now you can use the routeName variable as needed
-        } else {
-            // Handle the case where the Bundle is null
-        }
+
 
 
 
@@ -183,8 +187,9 @@ public void fetchJson(){
     //=============================================================================================================================================================
 
     private void fetchLocationPeriodically() {
-        BitmapDescriptor livetrack = BitmapDescriptorFactory.fromResource(R.drawable.img_9);
-        Marker mymarker=mMap.addMarker(new MarkerOptions().position(new LatLng(12.934968 , 79.146881)).icon(livetrack));
+        BitmapDescriptor livetrack = BitmapDescriptorFactory.fromResource(R.drawable.location_icon);
+//        Marker mymarker=mMap.addMarker(new MarkerOptions().position(new LatLng(12.934968 , 79.146881)).icon(livetrack));
+
 
         handler.postDelayed(new Runnable() {
             @Override
@@ -205,7 +210,7 @@ public void fetchJson(){
 
 
 //
-                                mymarker.setPosition(newPosition);
+//                                mymarker.setPosition(newPosition);
                                 if(! driverMarkers.containsKey(driverKey)){
                                     Marker newMarker=mMap.addMarker(new MarkerOptions().position(newPosition).icon(livetrack).title(" "+driverKey));
                                     driverMarkers.put(driverKey,newMarker);
