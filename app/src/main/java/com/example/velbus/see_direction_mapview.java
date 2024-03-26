@@ -39,14 +39,10 @@ import java.util.ArrayList;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
+
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -59,7 +55,8 @@ public class see_direction_mapview extends FragmentActivity implements OnMapRead
     private GoogleMap mMap;
     //create custom marker for bbus  stop
     public Polyline mypolyline;
-    private HashMap<String, Marker> driverMarkers = new HashMap<>();
+    private HashMap<String, Marker> driverMarkers ;
+    Handler handler = new Handler();
     public String encodeRoute;
     public String encodeStopings;
     public  String route_name;
@@ -79,6 +76,7 @@ public class see_direction_mapview extends FragmentActivity implements OnMapRead
         firebaseAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference("drivers");
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        driverMarkers = new HashMap<>();
 
         // Check if the mapFragment is null to avoid potential issues
         if (mapFragment == null) {
@@ -185,34 +183,51 @@ public void fetchJson(){
     //=============================================================================================================================================================
 
     private void fetchLocationPeriodically() {
-        final Handler handler = new Handler();
+        BitmapDescriptor livetrack = BitmapDescriptorFactory.fromResource(R.drawable.img_9);
+        Marker mymarker=mMap.addMarker(new MarkerOptions().position(new LatLng(12.934968 , 79.146881)).icon(livetrack));
+
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                databaseReference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                         for (DataSnapshot driverSnapshot : dataSnapshot.getChildren()) {
                             String driverKey = driverSnapshot.getKey();
                             Double latitude = driverSnapshot.child("lat").getValue(Double.class);
                             Double longitude = driverSnapshot.child("lan").getValue(Double.class);
 
-                            if (latitude != null && longitude != null && mMap != null) {
+                            if ( mMap != null) {
+
                                 LatLng newPosition = new LatLng(latitude, longitude);
                                 // Clear existing markers
-                                BitmapDescriptor livetrack = BitmapDescriptorFactory.fromResource(R.drawable.live_track_icon);
 
-                                if (driverMarkers.containsKey(driverKey)) {
-                                    Marker marker = driverMarkers.get(driverKey);
-                                    if (marker != null) {
-                                        LatLng previousPosition = marker.getPosition();
-                                        marker.setPosition(newPosition); // Update marker position
-                                    }
-                                } else {
-                                    // Add new marker if it doesn't exist
-                                    Marker newMarker = mMap.addMarker(new MarkerOptions().position(newPosition).title("Driver " + driverKey).icon(livetrack));
-                                    driverMarkers.put(driverKey, newMarker);
+
+//
+                                mymarker.setPosition(newPosition);
+                                if(! driverMarkers.containsKey(driverKey)){
+                                    Marker newMarker=mMap.addMarker(new MarkerOptions().position(newPosition).icon(livetrack).title(" "+driverKey));
+                                    driverMarkers.put(driverKey,newMarker);
+                                } else if (driverMarkers.containsKey(driverKey)) {
+                                    Marker updateMarker=driverMarkers.get(driverKey);
+                                    assert updateMarker != null;
+                                    updateMarker.setPosition(newPosition);
                                 }
+
+//                                if (driverMarkers.containsKey(driverKey)) {
+//                                    Marker marker = driverMarkers.get(driverKey);
+//                                    if (marker != null) {
+//                                        LatLng previousPosition = marker.getPosition();
+//                                        Log.d("value gott=========>",latitude+" <================================================================================> "+longitude);
+//                                        marker.setPosition(newPosition);
+//                                         // Update marker position
+//                                    }
+//                                } else {
+//                                    // Add new marker if it doesn't exist
+//                                    Marker newMarker = mMap.addMarker(new MarkerOptions().position(newPosition).title(" " + driverKey).icon(livetrack));
+//                                    driverMarkers.put(driverKey, newMarker);
+//                                }
 
                             }
                         }
@@ -227,6 +242,45 @@ public void fetchJson(){
                 handler.postDelayed(this, 10 * 1000);
             }
         }, 0); // Initial delay of 0 ms
+    }
+
+
+    private  void updateLocation(){
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot driverSnapshot:dataSnapshot.getChildren()){
+
+                    String driverID=driverSnapshot.getKey();
+                    Double latitude=driverSnapshot.child("lat").getValue(Double.class);
+                    Double longitute=driverSnapshot.child("lon").getValue(Double.class);
+                    if(latitude!=null && longitute!=null){
+                        LatLng newLocation=new LatLng(latitude,longitute);
+                        BitmapDescriptor livetrack = BitmapDescriptorFactory.fromResource(R.drawable.img_9);
+
+                        if(driverMarkers.containsKey(driverID)){
+                            Objects.requireNonNull(driverMarkers.get(driverID)).setPosition(newLocation);
+                            mMap.addMarker(new MarkerOptions().position(newLocation).icon(livetrack));
+                        }
+                        else {
+
+                            Marker mark=mMap.addMarker(new MarkerOptions().position(newLocation).icon(livetrack).title(""+driverID));
+                            mMap.addMarker(new MarkerOptions().position(newLocation).icon(livetrack));
+                            driverMarkers.put(driverID,mark);
+                        }
+
+                    }
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     // Handle permission request result
@@ -248,6 +302,7 @@ public void fetchJson(){
 
         drawRoute(encodeRoute);
         fetchLocationPeriodically();
+//        updateLocation();
 
     }
 }
